@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.2)
 
 set(APP_NAME mesh_view)
 
-set(SOURCES src/main.c)
+set(SOURCES src/main.c
+            src/modes.c
+            src/scene.c
+            src/mesh_gen.c)
 
 ## Third party libs
 # glad 
@@ -27,7 +30,8 @@ add_subdirectory(thirdparty/glfw)
 find_package(OpenGL REQUIRED)
 
 # header only stuff
-
+add_library(header_only_impls STATIC 
+                              thirdparty/header_only_impls.c)
 include_directories(thirdparty)
 
 ##
@@ -38,4 +42,4 @@ add_library(gl_utils STATIC
 include_directories(lib/include)
 
 add_executable(${APP_NAME} ${SOURCES})
-target_link_libraries(${APP_NAME} ${OPENGL_LIBRARIES} glfw glad gl_utils)
+target_link_libraries(${APP_NAME} ${OPENGL_LIBRARIES} glfw glad gl_utils header_only_impls)
